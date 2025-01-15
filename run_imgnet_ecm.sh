@@ -1,6 +1,6 @@
 
 torchrun --nnodes=1 --nproc_per_node=$1 --rdzv_backend=c10d --rdzv_endpoint=localhost:$2 ct_train.py        \
-    --outdir=ct-runs --data=/local_datasets/edm2-imagenet-64x64.zip                \
+    --outdir=ct-runs --data=/mnt/tmp/edm2-imagenet-64x64.zip                \
     --cond=1 --arch=edm2 --preset=edm2-img64-s                              \
     --fp16=0 --cache=True --mid_t=1.526                                     \
     --duration=12.8 --tick=6.4 --batch=128 --batch-gpu=32                   \
