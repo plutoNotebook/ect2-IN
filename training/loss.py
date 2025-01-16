@@ -287,14 +287,14 @@ class ECT2Loss:
         if r.max() > 0:
             torch.cuda.set_rng_state(rng_state)
             with torch.no_grad():
+                rt = r / t
+                mu = self.mu(t)
+                x_r_hat = rt * x_t + (1. - rt) * fx_t
+                x_r_bar = x_t - (t - r) * target
+                x_r = (1. - mu) * x_r_hat + mu * x_r_bar
                 # NOTE(gsunshine): Disable the forced WN since there is no weight update.
                 # This eliminates the numerical errors and retains the self consistency.
                 with disable_forced_wn(net):
-                    rt = r / t
-                    mu = self.mu(t)
-                    x_r_hat = rt * x_t + (1. - rt) * fx_t
-                    x_r_bar = x_t - (t - r) * target if stf else x_0 + eps * r
-                    x_r = (1. - mu) * x_r_hat + mu * x_r_bar
                     fx_r = net(x_r, r, labels)
             
             mask = r > 0
