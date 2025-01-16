@@ -210,6 +210,11 @@ class ECT2Loss:
     def update_schedule_step(self, stage_step):
         self.stage_step = stage_step
 
+    def inv_step_lr(self, t):
+        adj = 1 + self.k * torch.sigmoid(-self.b * t)
+        ratio = 1 - (self.initial * (self.gamma ** self.stage_mu)) * adj
+        return torch.clamp(ratio, min=0)
+
     def snrplusk_wt(self, t, r):
         # SNR(t) + k = 1/t**2 + k
         wt = (t ** 2 + self.sigma_data ** 2) / (t * self.sigma_data) ** 2
