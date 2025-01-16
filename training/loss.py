@@ -215,6 +215,11 @@ class ECT2Loss:
         ratio = 1 - (self.initial * (self.gamma ** self.stage_mu)) * adj
         return torch.clamp(ratio, min=0)
 
+    def mu_const(self, t):
+        decay = 1 / 2.0 ** (self.stage_mu+1)
+        ratio = 1 - decay
+        return torch.clamp(torch.tensor(ratio, dtype=t.dtype), min=0)
+
     def snrplusk_wt(self, t, r):
         # SNR(t) + k = 1/t**2 + k
         wt = (t ** 2 + self.sigma_data ** 2) / (t * self.sigma_data) ** 2
