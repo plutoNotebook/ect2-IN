@@ -290,7 +290,10 @@ class ECT2Loss:
                 rt = r / t
                 mu = self.mu(t)
                 x_r_hat = rt * x_t + (1. - rt) * fx_t
-                x_r_bar = x_t - (t - r) * target
+                if stf:
+                    x_r_bar = x_t - (t - r) * target
+                else:
+                    x_r_bar = x_0 + eps * r
                 x_r = (1. - mu) * x_r_hat + mu * x_r_bar
                 # NOTE(gsunshine): Disable the forced WN since there is no weight update.
                 # This eliminates the numerical errors and retains the self consistency.
