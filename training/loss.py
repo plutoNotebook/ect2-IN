@@ -131,9 +131,9 @@ class ECMLoss:
         else:
             loss = torch.sqrt(loss)
         
-        # wt = self.wt_fn(t, r)
-        # return loss * wt.flatten()
-        return loss
+        wt = self.wt_fn(t, r)
+        return loss * wt.flatten()
+
 
 
 
@@ -324,6 +324,7 @@ class ECT2Loss:
         else:
             loss = torch.sqrt(loss)
         
-        wt = self.wt_fn(t, r)
-        return loss * wt.flatten()
+        # wt = self.wt_fn(t, r)
+        # return loss * wt.flatten()
+        return loss
 
